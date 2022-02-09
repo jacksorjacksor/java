@@ -1,23 +1,21 @@
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.sound.midi.SysexMessage;
+import java.util.HashMap;
 
 public class Competition1 {
+
+    /*
+     * With eternal gratitude to Linsey Rimmer for explaining how HashMaps work.
+     * May your ciphertext never use the letter "Q"
+     */
+
     public static String ciphertext = "ETEVHTWGSAHGWYVPNKQOEGWYVPNKPDEPHWAOVWPFWNHANEVWXAVOAEAJEUXTAOWBTEVHTWGSAHGWYVPNQAOQVGTYHAVAXETOANFQEOIQPLANTEVHFYNSQVEBEOWSKNCKLOPEVTYJAUFWYNCOTWZESQEPERQSQOPEVYCEVHEGDEHEVHEYOPNQEEHWYFTKTEVHTWGSAHGWYVPNKQOWVAPDEPWVTKFWNHANOTEVHTWGSAHGWYVPNQAOPDANAENAWVTKPIWHWYFTKTEVHTWGSAHGWYVPNQAOQVPDAIWNTHWVAWBPDAUQOYLFASQOPEVIDEPQOPDAWPDANWVA";
     public static String phrase = "NEPALSERBIASWITZERLANDBURKINAFASOKYRGYZSTANLUXEMBOURGSLOVAKIATAJIKISTANUGANDACHADANDAUSTRIA";
 
     public static void main(String[] args) {
-        // System.out.println("Ciphertext: " + ciphertext);
-        // System.out.println("Hint phrase: " + phrase);
-
         /////////////////////////////////////////
         // 1. List of all capital letters
         /////////////////////////////////////////
-
-        // Code for array of capital letters:
-        // https://stackoverflow.com/questions/50923610/create-array-with-uppercase-ascii-letters-in-java
-        char[] capitalLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
         /////////////////////////////////////////
         // 2. Make list of indexes for N
@@ -25,20 +23,16 @@ public class Competition1 {
         List<Integer> listOfIndexesOfN = new ArrayList<Integer>();
 
         for (int i = 0; i < phrase.length(); i++) {
-
             if (phrase.charAt(i) == 'N') {
                 listOfIndexesOfN.add(i);
             }
-            ;
-
         }
-        System.out.println(listOfIndexesOfN);
 
         /////////////////////////////////////////
         // 3. Go through and find if letters at such indexes are equal for N
         /////////////////////////////////////////
 
-        int indexWherePhraseStartsInCiphertext;
+        int indexWherePhraseStartsInCiphertext = -1;
 
         // For each letter of the cipher
         for (int i = 0; i < ciphertext.length(); i++) {
@@ -61,15 +55,32 @@ public class Competition1 {
                 }
                 if (allLettersMatch) {
                     indexWherePhraseStartsInCiphertext = i;
-                    System.out.println(" DONE ");
-                    System.out.println(listOfCharacters);
-                    System.out.println(indexWherePhraseStartsInCiphertext);
                     break;
                 }
             }
         }
 
-        // Make dictionary
+        /////////////////////////////////////////
+        // # 4. Make dictionary of letter replacements
+        /////////////////////////////////////////
 
+        // HASHMAP
+        HashMap<Character, Character> cipherToPhraseHashMap = new HashMap<Character, Character>();
+        for (int i = 0; i < phrase.length(); i++) {
+            if (cipherToPhraseHashMap.containsKey(ciphertext.charAt(i + indexWherePhraseStartsInCiphertext))) {
+                continue;
+            }
+            cipherToPhraseHashMap.put(ciphertext.charAt(i + indexWherePhraseStartsInCiphertext), phrase.charAt(i));
+        }
+        /////////////////////////////////////////
+        // # 5. Translate
+        /////////////////////////////////////////
+
+        String myOutputValue = "";
+        for (int i = 0; i < ciphertext.length(); i++) {
+            myOutputValue += cipherToPhraseHashMap.get(ciphertext.charAt(i));
+        }
+
+        System.out.println(myOutputValue);
     }
 }
