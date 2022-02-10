@@ -1,3 +1,5 @@
+package one;
+
 import java.lang.Math;
 
 public class one_eight {
