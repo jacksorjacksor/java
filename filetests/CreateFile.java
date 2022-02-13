@@ -1,10 +1,17 @@
 import java.io.*;
 
 public class CreateFile {
-    FileWriter writer = new FileWriter(" textwriteexample.txt ");
-    PrintWriter out = new PrintWriter(writer);
-    // out.println( " One " ); // writes " One "
-    // out.println( 2 ); // writes "2"
-    // out.println( 3.0 ) ; // writes "3.0"
-    // out.close()
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader myBufferedReader = new BufferedReader(new FileReader(args[1]));
+        String line;
+        String value = args[0];
+        while ((line = myBufferedReader.readLine()) != null) {
+            if (line.contains(value)) {
+                System.out.println(line);
+            }
+
+        }
+        myBufferedReader.close();
+    }
 }
